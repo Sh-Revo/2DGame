@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public int Lives = 3;
-    public float speed = 2.0f;
-    public float jumpForce = 0.5f;
-    bool OnGround;
+    private int Lives = 3;
+    private float speed = 2.0f;
+    private float jumpForce = 4f;
+    bool isGrounded = true;
     public Rigidbody2D PlayerRigibody;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
+    public Transform groundCheck;
+    public LayerMask groundLayer;
 
     private void Awake()
     {
@@ -27,7 +29,8 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        CheckGround();
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
+        //CheckGround();
     }
     void Update()
     {
@@ -36,7 +39,7 @@ public class Movement : MonoBehaviour
             animator.SetInteger("State", 1);
             Move();
         }
-        if (OnGround && Input.GetButton("Jump"))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             animator.SetInteger("State", 2);
             Jump();
@@ -63,12 +66,7 @@ public class Movement : MonoBehaviour
 
     void Jump()
     {
-        PlayerRigibody.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
-    }
-
-    void CheckGround()
-    {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.5f);
-        OnGround = colliders.Length > 1;
+        if (isGrounded)
+            PlayerRigibody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
     }
 }
