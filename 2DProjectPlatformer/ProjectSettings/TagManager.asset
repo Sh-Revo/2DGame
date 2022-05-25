@@ -9,6 +9,7 @@ TagManager:
   - MainMenuCanvas
   - GroundObject
   - Enemy
+  - End
   layers:
   - Default
   - TransparentFX

@@ -13,6 +13,7 @@ public class MenuEvents : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1;
         mixer.GetFloat("Volume",out value);
         volumeSlider.value = value;
     }
